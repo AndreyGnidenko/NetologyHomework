@@ -1,0 +1,60 @@
+{
+    "testName":"Test1",
+    "testQuestions":
+    [
+        {
+            "questionText": "Млечный путь - это ...",
+            "answers":
+            [
+                {
+                    "text": "Скопление звезд",
+                    "correct": false
+                },
+                {
+                    "text": "Галактика",
+                    "correct": true
+                },
+                {
+                    "text": "Солнечная система",
+                    "correct": false
+                }
+            ]
+        },
+        {
+            "questionText": "Инфузория-туфелька — это...",
+            "answers":
+            [
+                {
+                    "text": "Бактерия",
+                    "correct": false
+                },
+                {
+                    "text": "Модная обувь",
+                    "correct": false
+                },
+                {
+                    "text": "Простейший, одноклеточный организм",
+                    "correct": true
+                }
+            ]
+        },
+        {
+            "questionText": "Кто изобрел джинсы?",
+            "answers":
+            [
+                {
+                    "text": "Левай Страус",
+                    "correct": true
+                },
+                {
+                    "text": "Джанни Версачи",
+                    "correct": false
+                },
+                {
+                    "text": "Пьер Карден",
+                    "correct": false
+                }
+            ]
+        }        
+    ]
+}
