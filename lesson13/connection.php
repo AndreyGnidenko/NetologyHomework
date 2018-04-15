@@ -41,17 +41,26 @@ class DatabaseConnection
         return $sqlStatement->fetchAll(PDO::FETCH_ASSOC);
     }
     
+    public function addTableField ($tableName, $fieldName, $fieldType)
+    {
+        $sqlQuery = 'ALTER TABLE `'.$tableName.'` ADD COLUMN `'.$fieldName.'` '.$fieldType;
+        $sqlStatement = $this->dbh->prepare($sqlQuery);
+        $sqlStatement->execute();
+    }
+    
     public function alterTableField ($tableName, $fieldName, $newType, $newName)
     {
-        $sqlQuery = 'ALTER TABLE '.$tableName. ' CHANGE COLUMN `:fieldName` `:newName` :newType';
+        $sqlQuery = 'ALTER TABLE `'.$tableName. '` CHANGE COLUMN `'.$fieldName.'` `'.$newName.'` '.$newType;
         $sqlStatement = $this->dbh->prepare($sqlQuery);
+        $sqlStatement->execute();
+    }
+    
+    public function removeTableField ($tableName, $fieldName)
+    {
+        $sqlQuery = 'ALTER TABLE `'.$tableName. '` DROP COLUMN `'.$fieldName.'`';
         
-        $insertValues = array();
-        $insertValues['fieldName'] = $fieldName;
-        $insertValues['newName'] = $newName;
-        $insertValues['newType'] = $newType;
-        
-        $sqlStatement->execute($insertValues);
+        $sqlStatement = $this->dbh->prepare($sqlQuery);
+        $sqlStatement->execute();
     }
 }
 
