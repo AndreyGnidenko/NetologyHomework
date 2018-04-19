@@ -1,0 +1,10 @@
+{
+    "name": "agnidenko/taskmanager",
+    "description": "taskmanager",
+    "type": "project",
+    "license": "mit",
+    "minimum-stability": "dev",
+    "require": {
+        "twig/twig": "~2.4.8"
+    }
+}
