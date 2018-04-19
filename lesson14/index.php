@@ -17,7 +17,7 @@
         <h2>Geographic location provider </h2>
         
         <form method="get">
-            <label>Specify address</label>
+            <label>Please specify address</label>
             <input type="text" name="address" placeholder="Address">
             <input type="submit" name="find" value="Find">
             </input>
@@ -27,8 +27,8 @@
 
 $mapLat = null;
 $mapLon = null;
+$mapAddr = null;
  
-
 if (isset($_GET['address']) && !empty($_GET['address']))
 {
     require('vendor/autoload.php');
@@ -54,6 +54,8 @@ if (isset($_GET['address']) && !empty($_GET['address']))
         $locationIdx = 0;
         foreach ($foundLocations as $location)
         {
+            $indices = 
+            
             $lat = $location->getLatitude();
             $lon = $location->getLongitude();
             $prettyAddress = $location->getAddress();
@@ -64,16 +66,14 @@ if (isset($_GET['address']) && !empty($_GET['address']))
                 $mapLon = $lon;
                 $mapAddr = $prettyAddress;
             }
-            
-            if ($locationIdx == 1)
+            else if ($locationIdx == 1)
             {
                 echo '<h3>Other possible locations:</h3>';
             }
-
-            echo 'Address: <a href="?address=', $address, '&lat=', $lat, '&lon=', $lon, '&addr=', $prettyAddress, '">', $prettyAddress, '</a><br/>';
-            echo 'Latitude: ', $lat, '<br/>';
-            echo 'Longitude: ', $lon, '<br/>';
             
+            $hrefParams = array ('address'=> $address, 'lat'=> $lat, 'lon'=> $lon, 'addr' => $prettyAddress );
+
+            echo 'Address: <a href="?'.http_build_query($hrefParams).'">', $prettyAddress, '</a><br/>';
             ++$locationIdx;
         }
     }
@@ -97,8 +97,8 @@ $mapAddr = isset($_GET['addr']) ? $_GET['addr'] : $mapAddr;
                     });
                     
                     placemark = new ymaps.Placemark(map.getCenter(), {
-                        hintContent: <?php echo $mapAddr ?>,
-                        balloonContent: <?php echo $mapAddr ?>
+                        hintContent: '<?php echo $mapAddr ?>',
+                        balloonContent: '<?php echo $mapAddr ?>'
                     }, {
                         iconLayout: 'default#image',
                         iconImageSize: [30, 42],
@@ -111,7 +111,6 @@ $mapAddr = isset($_GET['addr']) ? $_GET['addr'] : $mapAddr;
             </script>
         
         <?php endif; ?>
-        
 
     </body>
 </html>
