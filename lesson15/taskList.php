@@ -42,7 +42,11 @@
             case 'addTask':
             {
                 $taskDescription = $_POST['description'];
-                $model->addTask($userName, $taskDescription);
+                
+                if (!empty($taskDescription))
+                {
+                    $model->addTask($userName, $taskDescription);
+                }
                 break;
             }
             case 'delegate':
@@ -131,13 +135,11 @@
     $columnNames = array ('description' => 'Description', 'date_added'=>'Time', 'is_done'=>'Status', 'creator'=>'Created by', 'assignee'=>'Assigned to');
             
     $userNames = $model->getUserNames();
-    $sortField = isset($_GET['doSort']) ? $_GET['sortBy'] : 'date_added';
-    
-    $tasks = $model->getUserTasks($userName, $sortField);
-    $assignedTasks = $model->getAssignedTasks($userName, $sortField);
+    $tasks = $model->getUserTasks($userName, $sortColumn);
+    $assignedTasks = $model->getAssignedTasks($userName, $sortColumn);
     
     $twigParams = array('userName' => $userName, 'columnNames'=> $columnNames, 'users'=>$userNames, 
-    'sortColumn' => $sortField, 'tasks' =>$tasks, 'assignedTasks'=>$assignedTasks);
+    'sortColumn' => $sortColumn, 'tasks' =>$tasks, 'assignedTasks'=>$assignedTasks);
         
     if ($taskIdToRename!= null)
     {
