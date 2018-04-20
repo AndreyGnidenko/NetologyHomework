@@ -2,13 +2,13 @@
 
 class Model
 {
-    private $dsn = 'mysql:dbname=tasks;host=localhost;charset=utf8';
-    private $user = 'root';
-    private $password = '';
+    //private $dsn = 'mysql:dbname=tasks;host=localhost;charset=utf8';
+    //private $user = 'root';
+    //private $password = '';
     
-    //private $dsn = 'mysql:dbname=gnidenko;host=localhost;charset=utf8';
-    //private $user = 'gnidenko';
-    //private $password = 'neto1689';
+    private $dsn = 'mysql:dbname=gnidenko;host=localhost;charset=utf8';
+    private $user = 'gnidenko';
+    private $password = 'neto1689';
     
     private $dbh;
     
@@ -101,7 +101,7 @@ class Model
     }
     
     
-    public function getUsers ()
+    public function getUserNames ()
     {
         $sqlQuery = 'SELECT id, login as userName FROM user';
         $sqlStatement = $this->dbh->prepare($sqlQuery);

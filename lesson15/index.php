@@ -10,7 +10,7 @@
     }
     else
     {
-        redirect('tasks');
+        redirect('taskList');
     }
     
  ?>

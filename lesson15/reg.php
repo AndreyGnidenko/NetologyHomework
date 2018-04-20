@@ -6,10 +6,11 @@ require_once('model.php');
 
 if (!empty($_SESSION['user']))
 {
-    redirect('tasks');
+    redirect('taskList');
 }
 
 $errors = array();
+$model = new Model;
 
 if (isset($_POST['sign_in']))
 {
@@ -23,14 +24,11 @@ if (isset($_POST['sign_in']))
         {
             $login = prepareInput($_POST['login']);
             $password = md5(prepareInput($_POST['password']));
-            
-            $model = new Model;
-            
+
             if ($model->validateUser($login, $password))
             {
                 $_SESSION['user'] = $login;
-                redirect ('tasks');
-                die;
+                redirect ('taskList');
             }
             else
             {
@@ -57,51 +55,32 @@ if (isset($_POST['sign_up']))
             $login = prepareInput($_POST['login']);
             $password = md5(prepareInput($_POST['password']));
             
-            $dbConnection = new DatabaseConnection;
-            
-            if ($dbConnection->isExistingUser($login))
+            if ($model->isExistingUser($login))
             {
                 $errors[] = 'The specified user already exists';
             }
             else
             {
-                $dbConnection->addUser($login, $password);
+                $model->addUser($login, $password);
                 
                 $_SESSION['user'] = $login;
-                redirect ('tasks');
-                die;
+                redirect ('taskList');
             }
         }
     }
     else
     {
         $errors[] = 'Incorrect login or password';
-    }        
-}
+    }
+}    
+    
+require_once('vendor/autoload.php');
+$loader = new Twig_Loader_Filesystem(__DIR__);
+$twig = new Twig_Environment($loader);
 
+echo $twig->render('reg.twig', array('errors' => $errors));
+    
 ?>
 
-<html lang="ru">
-    <head>
-        <title>TODO manager</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    </head>
-    <body>
-        <h2>Please login</h2>
-        
-        <ul>
-            <?php foreach ($errors as $error): ?>
-                <li style="color:red" ><?php echo $error ?></li>
-            <?php endforeach; ?>
-        </ul>
-        
-        <form method="POST">
-            <input type="text" name="login" placeholder="Login" /><br/>
-            <input type="password" name="password" placeholder="Password" /><br/>
-            <input type="submit" name="sign_in" value="Sign in" />
-            <input type="submit" name="sign_up" value="Sign up" />
-        </form>
-        
-    </body>
-</html> 
+
 

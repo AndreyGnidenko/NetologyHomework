@@ -1,0 +1,138 @@
+<html lang="ru">
+    <head>
+        <title>Tasks for today</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" href="{{ 'styles.css' }}" type="text/css"/>
+    </head>
+    <body>
+        
+        <h2>Hello, {{ userName }}! Your tasks for today </h2> 
+        <div style="float: left; margin-left: 20px;">
+            <form method="post">
+                <input type="text" name="description" placeholder="Task description" value="" />
+                <input type="submit" name="addTask" value="Add" />
+                <input type="hidden" name="operation" value="addTask" />
+            </form>
+        </div>
+        
+        <div style="float: left; margin-left: 20px;">
+            <form method="get">
+                <label for="sort">Sort by</label>
+                <select name="sortBy">
+                    <option value="date_added">Date</option>
+                    <option value="is_done">Status</option>
+                    <option value="description">Description</option>
+                </select>
+                <input type="hidden" name="operation" value="sort" />
+                <input type="submit" name="sort" value="Sort" />
+            </form>
+        </div>
+        <div style="clear: both"></div>
+        
+        {% if taskIdToRename is defined %}
+            <form name="rename" method="POST">
+                <fieldset>
+                    <legend>New description for task</legend>
+                    <input type="text" name="newDesc" placeholder="New description"/><br/>
+                    <input type="hidden" name="taskId" value="{{ taskIdToRename }}"/>
+                    <input type="hidden" name="operation" value="rename"/>
+                    <input type="submit" name="rename" value="Change description"/>
+                </fieldset>
+            </form>';
+        {% endif %}
+
+        <table name="MyTasks">
+       
+        <tr>
+            
+            {% for columnName in columnNames %}
+                <th> {{ columnName }} </th>
+            {% endfor %}
+            
+            <th>Actions</th>
+            <th>Delegation</th>
+        </tr>
+        
+        {% for taskRecord in tasks %}
+            <tr>
+                <td>{{ taskRecord.description }}</td>
+                <td>{{ taskRecord.date_added }}</td>
+                <td>
+                    {% if taskRecord.is_done %}
+                        Complete
+                    {% else %}
+                        In progress
+                    {% endif %}    
+                </td>
+                
+                <td>{{ userName }}</td>
+                <td>{{ taskRecord.assignee }}</td>
+                
+                <td>
+                    <a href="?taskId={{ taskRecord.id }}&operation=Modify" style="color: green">Modify</a> 
+        
+                    <form method="post" class="frm-link">
+                        <button type="submit" name="operation" value="resolve" class="btn-link-blue">Resolve</button>
+                        <input type="hidden" name="taskId" value="{{ taskRecord.id }} '"/>
+                    </form>
+                    
+                    <form method="post" class="frm-link">
+                        <button type="submit" name="operation" value="delete" class="btn-link">Delete</button>
+                        <input type="hidden" name="taskId" value="{{ taskRecord.id }}"/>
+                    </form>
+                </td>
+                
+                <td> 
+                    <form method="POST"> 
+                        <select name="assigned_id">
+                        
+                        {% for user in users %}
+                            <option value="task{{ taskRecord.id }}_user{{ user.id }}"> {{ user.userName }} </option>
+                        {% endfor %}
+                
+                        </select> 
+                        <input type='submit' name='delegate' value='Delegate'>
+                        <input type='hidden' name='operation' value='delegate'>                         
+                    </form> 
+                </td>
+            </tr>
+        {% endfor %}
+        
+        </table>
+
+        <h2>Tasks assigned to me by others</h2>
+        
+        <table name="AssignedTasks">
+        
+        <tr>
+            {% for columnName in columnNames %}
+                <th> {{ columnName }} </th>
+            {% endfor %}
+        </tr>
+        
+        {% for assignedTask in assignedTasks %}
+        
+            <tr>
+                <td>{{ assignedTask.description }}</td>
+                <td>{{ assignedTask.date_added }}</td>
+                <td>
+                    {% if assignedTask.is_done %}
+                        Complete
+                    {% else %}
+                        In progress
+                    {% endif %}    
+                </td>
+                <td>{{ assignedTask.creator }}</td>
+                <td>{{ userName }}</td>
+            </tr>
+        {% endfor %}
+        
+        </table>
+        
+        <br/>
+        <br/>
+        
+        <a href="logout.php">Logout</a>
+        
+     </body>
+</html>
