@@ -15,15 +15,13 @@
             </form>
         </div>
         
-        {% set sortOptions = [] %}
-        
         <div style="float: left; margin-left: 20px;">
             <form method="get">
                 <label for="sort">Sort by</label>
                 <select name="sortBy">
-                    <option value="date_added" {% if sortColumn == 'date_added' %} selected {% endif %}>Date</option>
-                    <option value="is_done" {% if sortColumn == 'is_done' %} selected {% endif %}>Status</option>
-                    <option value="description" {% if sortColumn == 'description' %} selected {% endif %}>Description</option>
+                    <option value="date_added">Date</option>
+                    <option value="is_done">Status</option>
+                    <option value="description">Description</option>
                 </select>
                 <input type="hidden" name="operation" value="sort" />
                 <input type="submit" name="sort" value="Sort" />
