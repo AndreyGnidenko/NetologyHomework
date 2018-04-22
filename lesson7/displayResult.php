@@ -14,3 +14,5 @@ header('Content-type: image/png');
 
 imagepng($image, NULL, 6, PNG_ALL_FILTERS);
 imagedestroy($image);
+
+?>
