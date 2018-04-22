@@ -28,5 +28,3 @@ class News
         return $this->dateTime->format('Y-m-d H:i:s').'<br/><h3>'.$this->title.'</h3>'.$this->content.'<br/><i>Tags: '.implode($this->tags).'</i>';
     }
 }
-
-?>
