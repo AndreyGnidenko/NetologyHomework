@@ -1,0 +1,43 @@
+    table { 
+        border-spacing: 0;
+        border-collapse: collapse;
+    }
+
+    table td, table th {
+        border: 1px solid #ccc;
+        padding: 5px;
+    }
+    
+    table th {
+        background: #eee;
+    }
+	
+	.frm-link {
+        display:inline;
+        margin:4;
+        padding:0;
+    }
+    
+    .btn-link{
+          border:none;
+          outline:none;
+          background:none;
+          cursor:pointer;
+          color:#EE0000;
+          padding:0;
+          text-decoration:underline;
+          font-family:inherit;
+          font-size:inherit;
+    }
+    
+    .btn-link-blue{
+          border:none;
+          outline:none;
+          background:none;
+          cursor:pointer;
+          color:#0000EE;
+          padding:0;
+          text-decoration:underline;
+          font-family:inherit;
+          font-size:inherit;
+    }

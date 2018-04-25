@@ -13,3 +13,9 @@
 
 Route::get('/', 'PhonebookController@index');
 
+Route::post('/add', 'PhonebookController@addRecord');
+
+Route::post('/modify', 'PhonebookController@modifyRecord');
+
+Route::post('/delete', 'PhonebookController@deleteRecord');
+

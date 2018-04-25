@@ -7,61 +7,81 @@
 
         <title>Notebook</title>
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
+		<link href="{{ asset('css/styles.css') }}" rel="stylesheet">
     </head>
     <body>
-		AAA
-    </body>
+
+        <h2>Записная книжка</h2>
+
+        <br/>
+		
+		@if (@isset($modifyRecId))
+			<form method="post" action="/modify" accept-charset="UTF-8">
+				<fieldset>
+					<legend>Редактирование записи {{ $fio }}</legend>
+								
+				<label>ФИО:
+				<input type="text" name="fio" placeholder="ФИО" value="{{ $fio }}"></input>
+				</label>
+				<label>Номер телефона:
+				<input type="text" name="phonenum" placeholder="+7 (900) 123-45-67" pattern="\+7\s?[\(]{0,1}9[0-9]{2}[\)]{0,1}\s?\d{3}[-]{0,1}\d{2}[-]{0,1}\d{2}" value="{{ $phonenum }}"></input><br/><br/>
+				</label>
+				<input type="hidden" name="recId" value="{{ $modifyRecId }}" />
+				<input type="submit" name="modifyrecord" value="Редактировать" />
+
+				</fieldset>
+				
+				{{csrf_field()}}
+			</form>
+		@else
+			<form method="post" action="/add" accept-charset="UTF-8">
+				<label>ФИО:
+				<input type="text" name="fio" placeholder="ФИО"></input>
+				</label>
+				<label>Номер телефона:
+				<input type="text" name="phonenum" placeholder="+7 (900) 123-45-67" pattern="\+7\s?[\(]{0,1}9[0-9]{2}[\)]{0,1}\s?\d{3}[-]{0,1}\d{2}[-]{0,1}\d{2}"></input><br/><br/>
+				</label>
+				<input type="submit" name="addrecord" value="Добавить" />
+
+				{{csrf_field()}}
+			</form>
+		@endif
+
+		@if(count($phoneRecs) > 0)
+		<br/>	
+		<table name="Phones">
+				<tr>
+					<th>ФИО</th>
+					<th>Номер телефона</th>
+                    <th>Операции</th>
+				</tr>
+				
+				@foreach ($phoneRecs as $phoneRec)	
+					<tr>
+						<td> {{ $phoneRec->FIO }} </td>
+						<td> {{ $phoneRec->phonenum }} </td>
+						<td>
+							<a href="?modifyRecId={{ $phoneRec->id }}&fio={{ $phoneRec->FIO }}&phonenum={{ $phoneRec->phonenum }}" style="color: green">Изменить</a> 
+						
+                            <form method="post" class="frm-link" action="/delete">
+                                <button type="submit" name="delete" class="btn-link">Удалить</button>
+                                <input type="hidden" name="recId" value="{{ $phoneRec->id }}"/>
+
+                                {{ csrf_field() }}
+
+                            </form>
+						
+						</td>
+					</tr>
+				@endforeach
+				
+			</table>
+		@else	
+			<p>Записная книжка пуста</p>
+		@endif
+				
+        <br/>
+        <br/>
+
+	</body>
 </html>
